@@ -1,0 +1,167 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "C:/Windows/System32/svchost.exe", "label": "C:/Windows/System32/svchost.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/wbem/unsecapp.exe", "label": "C:/Windows/System32/wbem/unsecapp.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/winrshost.exe", "label": "C:/Windows/System32/winrshost.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/vdsldr.exe", "label": "C:/Windows/System32/vdsldr.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/WinSxS/amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.14393.3926_none_7ec739a4221e2b99/TiWorker.exe", "label": "C:/Windows/WinSxS/amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.14393.3926_none_7ec739a4221e2b99/TiWorker.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/wbem/WmiPrvSE.exe", "label": "C:/Windows/System32/wbem/WmiPrvSE.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/services.exe", "label": "C:/Windows/System32/services.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/sysmon64.exe", "label": "C:/Windows/sysmon64.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/Amazon/SSM/amazon-ssm-agent.exe", "label": "C:/Program Files/Amazon/SSM/amazon-ssm-agent.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/vds.exe", "label": "C:/Windows/System32/vds.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/dfsrs.exe", "label": "C:/Windows/System32/dfsrs.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/dfssvc.exe", "label": "C:/Windows/System32/dfssvc.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/ADWS/Microsoft.ActiveDirectory.WebServices.exe", "label": "C:/Windows/ADWS/Microsoft.ActiveDirectory.WebServices.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/ismserv.exe", "label": "C:/Windows/System32/ismserv.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/dns.exe", "label": "C:/Windows/System32/dns.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/Amazon/XenTools/LiteAgent.exe", "label": "C:/Program Files/Amazon/XenTools/LiteAgent.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files (x86)/nxlog/nxlog.exe", "label": "C:/Program Files (x86)/nxlog/nxlog.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/spoolsv.exe", "label": "C:/Windows/System32/spoolsv.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/servicing/TrustedInstaller.exe", "label": "C:/Windows/servicing/TrustedInstaller.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/VSSVC.exe", "label": "C:/Windows/System32/VSSVC.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/msdtc.exe", "label": "C:/Windows/System32/msdtc.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "label": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/chcp.com", "label": "C:/Windows/System32/chcp.com", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe", "label": "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/shutdown.exe", "label": "C:/Windows/System32/shutdown.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Users/Public/splunkd.exe", "label": "C:/Users/Public/splunkd.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/whoami.exe", "label": "C:/Windows/System32/whoami.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/HOSTNAME.EXE", "label": "C:/Windows/System32/HOSTNAME.EXE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/cmd.exe", "label": "C:/Windows/System32/cmd.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/conhost.exe", "label": "C:/Windows/System32/conhost.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/btool.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/btool.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/reg.exe", "label": "C:/Windows/System32/reg.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/findstr.exe", "label": "C:/Windows/System32/findstr.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/ntdsutil.exe", "label": "C:/Windows/System32/ntdsutil.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/vssadmin.exe", "label": "C:/Windows/System32/vssadmin.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/wbem/WMIC.exe", "label": "C:/Windows/System32/wbem/WMIC.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/cvtres.exe", "label": "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/cvtres.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/winlogon.exe", "label": "C:/Windows/System32/winlogon.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/dwm.exe", "label": "C:/Windows/System32/dwm.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/LogonUI.exe", "label": "C:/Windows/System32/LogonUI.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/wininit.exe", "label": "C:/Windows/System32/wininit.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/lsass.exe", "label": "C:/Windows/System32/lsass.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/smss.exe", "label": "C:/Windows/System32/smss.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/csrss.exe", "label": "C:/Windows/System32/csrss.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/autochk.exe", "label": "C:/Windows/System32/autochk.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-wmi.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-wmi.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-MonitorNoHandle.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-MonitorNoHandle.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-netmon.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-netmon.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-admon.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-admon.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-perfmon.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-perfmon.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-powershell.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-powershell.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-regmon.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-regmon.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-winprintmon.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-winprintmon.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-winevtlog.exe", "label": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-winevtlog.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Program Files/SplunkUniversalForwarder/etc/apps/Splunk_TA_stream/windows_x86_64/bin/streamfwd.exe", "label": "C:/Program Files/SplunkUniversalForwarder/etc/apps/Splunk_TA_stream/windows_x86_64/bin/streamfwd.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/explorer.exe", "label": "C:/Windows/explorer.exe", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "C:/Windows/System32/wscript.exe", "label": "C:/Windows/System32/wscript.exe", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "C:/Windows/System32/svchost.exe", "to": "C:/Windows/System32/wbem/unsecapp.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/svchost.exe", "to": "C:/Windows/System32/winrshost.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/svchost.exe", "to": "C:/Windows/System32/vdsldr.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/svchost.exe", "to": "C:/Windows/WinSxS/amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.14393.3926_none_7ec739a4221e2b99/TiWorker.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/svchost.exe", "to": "C:/Windows/System32/wbem/WmiPrvSE.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/sysmon64.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/svchost.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Program Files/Amazon/SSM/amazon-ssm-agent.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/vds.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/dfsrs.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/dfssvc.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/ADWS/Microsoft.ActiveDirectory.WebServices.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/ismserv.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/dns.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Program Files/Amazon/XenTools/LiteAgent.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Program Files (x86)/nxlog/nxlog.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/spoolsv.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/servicing/TrustedInstaller.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/VSSVC.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/services.exe", "to": "C:/Windows/System32/msdtc.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Windows/System32/chcp.com", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Windows/System32/shutdown.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Users/Public/splunkd.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Windows/System32/whoami.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Windows/System32/HOSTNAME.EXE", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Windows/System32/cmd.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "to": "C:/Windows/System32/conhost.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/btool.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Windows/System32/reg.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Windows/System32/cmd.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Windows/System32/findstr.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Windows/System32/ntdsutil.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Windows/System32/vssadmin.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/cmd.exe", "to": "C:/Windows/System32/wbem/WMIC.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/winrshost.exe", "to": "C:/Windows/System32/cmd.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe", "to": "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/cvtres.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/winlogon.exe", "to": "C:/Windows/System32/dwm.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/winlogon.exe", "to": "C:/Windows/System32/LogonUI.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/wininit.exe", "to": "C:/Windows/System32/lsass.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/wininit.exe", "to": "C:/Windows/System32/services.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/smss.exe", "to": "C:/Windows/System32/winlogon.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/smss.exe", "to": "C:/Windows/System32/wininit.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/smss.exe", "to": "C:/Windows/System32/csrss.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/smss.exe", "to": "C:/Windows/System32/smss.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/smss.exe", "to": "C:/Windows/System32/autochk.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/btool.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Windows/System32/cmd.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-wmi.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-MonitorNoHandle.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-netmon.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-admon.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-perfmon.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-powershell.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-regmon.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-winprintmon.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk-winevtlog.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "to": "C:/Program Files/SplunkUniversalForwarder/etc/apps/Splunk_TA_stream/windows_x86_64/bin/streamfwd.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "to": "C:/Windows/System32/cmd.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/btool.exe", "width": 1}, {"arrows": "to", "from": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "to": "C:/Program Files/SplunkUniversalForwarder/bin/splunk.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/explorer.exe", "to": "C:/Windows/System32/wscript.exe", "width": 1}, {"arrows": "to", "from": "C:/Windows/System32/wscript.exe", "to": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
